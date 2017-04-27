@@ -14,10 +14,4 @@
         android:layout_marginBottom="32dp"
         android:text="Hello World!" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/image1"/>
-
 </LinearLayout>
