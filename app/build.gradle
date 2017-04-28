@@ -47,21 +47,26 @@ task customCheckstyle(type: Checkstyle) {
     exclude '**/gen/**'
     classpath = files()
     reports {
-        xml.enabled = false
+        xml.enabled = true
+        xml.destination = "$project.buildDir/reports/checkstyle/checkstyle.xml"
         html.enabled = true
         html.destination = "$project.buildDir/reports/checkstyle/checkstyle.html"
     }
 }
 
 task customFindbugs(type: FindBugs) {
-    classes = fileTree("$project.buildDir/intermediates/classes/dev/debug/com/dd")
-    source = fileTree("$project.rootDir/src/main/java/com/dd/")
+    effort = "default"
+    reportLevel = "medium"
+    excludeFilter = new File("${project.rootDir}/config/findbugs/filters.xml")
+    classes = files("${project.rootDir}/app/build/intermediates/classes")
+    source = fileTree('src/main/java/')
     classpath = files()
 
     reports {
         xml.enabled = false
         html.enabled = true
         html.destination = "$project.buildDir/reports/findbugs/findbugs.html"
+
     }
 }
 
@@ -69,7 +74,8 @@ task customPmd(type: Pmd) {
     source = fileTree('src/main/java/')
 
     reports {
-        xml.enabled = false
+        xml.enabled = true
+        xml.destination = "$project.buildDir/reports/pmd/pmd.xml"
         html.enabled = true
         html.destination = "$project.buildDir/reports/pmd/pmd.html"
     }
