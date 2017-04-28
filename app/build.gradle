@@ -24,7 +24,7 @@ android {
 }
 
 checkstyle {
-    toolVersion = '7.6'
+    toolVersion = '6.18'
     ignoreFailures = true
     configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
 }
@@ -35,11 +35,33 @@ findbugs {
 }
 
 pmd {
-    toolVersion = '5.5.4'
+    toolVersion = '5.3.2'
     ignoreFailures = true;
     ruleSetFiles = files("${rootDir}/config/pmd/rule.xml")
     rulePriority = 3
 }
+
+task customFindbugs(type: FindBugs) {
+    ignoreFailures = true
+    effort = "default"
+    reportLevel = "medium"
+    excludeFilter = new File("${project.rootDir}/findbugs/findbugs-filter.xml")
+    classes = files("${project.rootDir}/app/build/intermediates/classes")
+    source = fileTree('src/main/java/')
+    classpath = files()
+    reports {
+        xml.enabled = true
+        html.enabled = true
+        xml {
+            destination "$project.buildDir/findbugs/findbugs-output.xml"
+        }
+        html {
+            destination "$project.buildDir/findbugs/findbugs-output.html"
+        }
+    }
+}
+
+build.dependsOn customFindbugs
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
