@@ -38,7 +38,7 @@ task customFindbugs(type: FindBugs) {
     reports {
         xml.enabled = false
         html.enabled = true
-        html.destination = "$project.buildDir/outputs/findbugs/findbugs.html"
+        html.destination = "$project.buildDir/reports/findbugs/findbugs.html"
     }
 }
 
@@ -50,7 +50,7 @@ task customPmd(type: Pmd) {
     reports {
         xml.enabled = false
         html.enabled = true
-        html.destination = "$project.buildDir/outputs/pmd/pmd.html"
+        html.destination = "$project.buildDir/reports/pmd/pmd.html"
     }
 }
 
