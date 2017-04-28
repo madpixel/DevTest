@@ -63,9 +63,9 @@ task customFindbugs(type: FindBugs) {
     classpath = files()
 
     reports {
-        xml.enabled = false
-        html.enabled = true
-        html.destination = "$project.buildDir/reports/findbugs/findbugs.html"
+        xml.enabled = true
+        html.enabled = false
+        xml.destination = "$project.buildDir/reports/findbugs/findbugs.xml"
 
     }
 }
