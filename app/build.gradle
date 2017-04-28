@@ -1,4 +1,8 @@
 apply plugin: 'com.android.application'
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
 
 android {
     compileSdkVersion 25
@@ -17,6 +21,24 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+checkstyle {
+    toolVersion = '7.6'
+    ignoreFailures = true
+    configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+}
+
+findbugs {
+    toolVersion = '3.0.1'
+    ignoreFailures = true
+}
+
+pmd {
+    toolVersion = '5.5.4'
+    ignoreFailures = true;
+    ruleSetFiles = files("${rootDir}/config/pmd/rule.xml")
+    rulePriority = 3
 }
 
 dependencies {
