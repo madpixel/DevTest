@@ -29,14 +29,8 @@ checkstyle {
     configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
 }
 
-pmd {
-    toolVersion = '5.3.2'
-    ignoreFailures = true;
-    ruleSetFiles = files("${rootDir}/config/pmd/rule.xml")
-    rulePriority = 3
-}
-
 task customFindbugs(type: FindBugs) {
+    ignoreFailures = true
     classes = fileTree("$project.buildDir/intermediates/classes/dev/debug/com/dd")
     source = fileTree("$project.rootDir/src/main/java/com/dd/")
     classpath = files()
@@ -48,7 +42,19 @@ task customFindbugs(type: FindBugs) {
     }
 }
 
-build.dependsOn customFindbugs
+task customPmd(type: Pmd) {
+    ignoreFailures = true
+    ruleSetFiles = files("$project.rootDir/config/pmd/ruleset.xml")
+    source = fileTree('src/main/java/')
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        html.destination = "$project.buildDir/outputs/pmd/pmd.html"
+    }
+}
+
+build.dependsOn customFindbugs, customPmd
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
