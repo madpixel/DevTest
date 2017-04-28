@@ -41,7 +41,7 @@ pmd {
     rulePriority = 3
 }
 
-task checkstyle(type: Checkstyle) {
+task customCheckstyle(type: Checkstyle) {
     source 'src'
     include '**/*.java'
     exclude '**/gen/**'
@@ -53,7 +53,7 @@ task checkstyle(type: Checkstyle) {
     }
 }
 
-task findbugs(type: FindBugs) {
+task customFindbugs(type: FindBugs) {
     classes = fileTree("$project.buildDir/intermediates/classes/dev/debug/com/dd")
     source = fileTree("$project.rootDir/src/main/java/com/dd/")
     classpath = files()
@@ -65,7 +65,7 @@ task findbugs(type: FindBugs) {
     }
 }
 
-task pmd(type: Pmd) {
+task customPmd(type: Pmd) {
     source = fileTree('src/main/java/')
 
     reports {
@@ -75,7 +75,7 @@ task pmd(type: Pmd) {
     }
 }
 
-build.dependsOn checkstyle, findbugs, pmd
+build.dependsOn customCheckstyle, customFindbugs, customPmd
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
