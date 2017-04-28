@@ -29,11 +29,6 @@ checkstyle {
     configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
 }
 
-findbugs {
-    toolVersion = '3.0.1'
-    ignoreFailures = true
-}
-
 pmd {
     toolVersion = '5.3.2'
     ignoreFailures = true;
@@ -42,21 +37,14 @@ pmd {
 }
 
 task customFindbugs(type: FindBugs) {
-    ignoreFailures = true
-    effort = "default"
-    reportLevel = "medium"
-    classes = files("${project.rootDir}/app/build/intermediates/classes")
-    source = fileTree('src/main/java/')
+    classes = fileTree("$project.buildDir/intermediates/classes/dev/debug/com/dd")
+    source = fileTree("$project.rootDir/src/main/java/com/dd/")
     classpath = files()
+
     reports {
-        xml.enabled = true
+        xml.enabled = false
         html.enabled = true
-        xml {
-            destination "$project.buildDir/findbugs/findbugs-output.xml"
-        }
-        html {
-            destination "$project.buildDir/findbugs/findbugs-output.html"
-        }
+        html.destination = "$project.buildDir/outputs/findbugs/findbugs.html"
     }
 }
 
