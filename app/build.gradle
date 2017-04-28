@@ -24,13 +24,36 @@ android {
 }
 
 checkstyle {
-    toolVersion = '6.18'
+    toolVersion = '7.6'
     ignoreFailures = true
     configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
 }
 
-task customFindbugs(type: FindBugs) {
+findbugs {
+    toolVersion '3.0.1'
     ignoreFailures = true
+}
+
+pmd {
+    toolVersion '5.5.4'
+    ignoreFailures = true
+    ruleSetFiles = files("$project.rootDir/config/pmd/ruleset.xml")
+    rulePriority = 3
+}
+
+task checkstyle(type: Checkstyle) {
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+    classpath = files()
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        html.destination = "$project.buildDir/reports/checkstyle/checkstyle.html"
+    }
+}
+
+task findbugs(type: FindBugs) {
     classes = fileTree("$project.buildDir/intermediates/classes/dev/debug/com/dd")
     source = fileTree("$project.rootDir/src/main/java/com/dd/")
     classpath = files()
@@ -42,9 +65,7 @@ task customFindbugs(type: FindBugs) {
     }
 }
 
-task customPmd(type: Pmd) {
-    ignoreFailures = true
-    ruleSetFiles = files("$project.rootDir/config/pmd/ruleset.xml")
+task pmd(type: Pmd) {
     source = fileTree('src/main/java/')
 
     reports {
@@ -54,7 +75,7 @@ task customPmd(type: Pmd) {
     }
 }
 
-build.dependsOn customFindbugs, customPmd
+build.dependsOn checkstyle, findbugs, pmd
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
