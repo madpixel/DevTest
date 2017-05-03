@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
+apply plugin: 'testfairy'
 
 
 android {
@@ -29,6 +30,22 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    testfairyConfig {
+        apiKey System.getenv("TESTFAIRY_API_KEY") as String
+        metrics "cpu,memory,network,logcat"
+        video "wifi"
+        videoRate "1"
+        videoQuality "medium"
+        maxDuration "10m"
+        recordOnBackground false
+        iconWatermark true
+        testersGroups "testgroup"
+        notify true
+        maxDuration "1h"
+        autoUpdate true
+        uploadProguardMapping true
     }
 }
 
